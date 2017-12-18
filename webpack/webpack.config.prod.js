@@ -2,6 +2,7 @@ const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const html = new htmlWebpackPlugin({
 	template: './src/index.template.html',
 	filename: 'index.html',
@@ -41,8 +42,15 @@ const uglify = new webpack.optimize.UglifyJsPlugin({
     output: {
       comments: false
     }
-  })
+})
 
+const gzipify =   new CompressionPlugin({
+	asset: '[path].gz[query]',
+	algorithm: 'gzip',
+	test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+	threshold: 10240,
+	minRatio: 0.8
+})
 
 module.exports = {
 	entry: './src/main.js',
@@ -73,6 +81,7 @@ module.exports = {
 			}),
 			new ScriptExtHtmlWebpackPlugin({
 				defaultAttribute: 'defer'
-			})
+			}),
+			gzipify
 	]
 }
