@@ -1,4 +1,6 @@
 const path = require('path')
+const htmlWebpackPlugin = require('html-webpack-plugin')
+
 
 module.exports = {
 	context: path.resolve('src'),
@@ -16,5 +18,10 @@ module.exports = {
 				presets: ['react', 'env']
 			}
 		}
-	]
+	],
+	plugins: [new htmlWebpackPlugin({
+		template: './srcc/index.template.html',
+		filename: 'index.html',
+		inject: 'body'
+	})]
 }
