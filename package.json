@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+	"dev": "webpack-dev-server --host 0.0.0.0 --inline --progress",
+	"build": "node build/build.js"
   },
   "keywords": [],
   "author": "Daksh Miglani <hello@dak.sh> (https://dak.sh)",
@@ -14,9 +15,10 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+	"webpack-dev-server": "^2.9.7",
+	"html-webpack-plugin": "^2.30.1"
   },
   "dependencies": {
-    "html-webpack-plugin": "^2.30.1"
   }
 }
