@@ -4,13 +4,6 @@ const webpack = require('webpack')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
-
-// add options here
-const options = {
-	projname: 'react-boilerplate-project',
-	public: 'http://localhost:8080/'
-}
 
 // plugins initialized and configured
 const html = new htmlWebpackPlugin({
@@ -57,14 +50,6 @@ const gzipify = new CompressionPlugin({
 	threshold: 10240,
 	minRatio: 0.8
 })
-const swprecache = new SWPrecacheWebpackPlugin({
-	  cacheId: options.projname,
-	  dontCacheBustUrlsMatching: /\.\w{8}\./,
-	  filename: 'service-worker.js',
-	  minify: true,
-	  navigateFallback: options.public + 'index.html',
-	  staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-})
 const preload = new PreloadWebpackPlugin({
 	rel: 'preload',
 	as: 'script',
@@ -104,7 +89,6 @@ module.exports = {
 				defaultAttribute: 'defer'
 			}),
 			gzipify,
-			swprecache,
 			preload
 	]
 }
