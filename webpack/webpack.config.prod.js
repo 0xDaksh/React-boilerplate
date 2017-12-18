@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
 // add options here
 const options = {
