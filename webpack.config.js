@@ -9,18 +9,20 @@ module.exports = {
 		path: path.resolve('dist'),
 		filename: 'bundle.js'
 	},
-	loaders: [
-		{
-			test: /\.js$/,
-			exclude: /node_modules/,
-			loader: 'babel-loader',
-			query: {
-				presets: ['react', 'env']
+	module: {
+		loaders: [
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader',
+				query: {
+					presets: ['react', 'env']
+				}
 			}
-		}
-	],
+		],
+	},
 	plugins: [new htmlWebpackPlugin({
-		template: './srcc/index.template.html',
+		template: './src/index.template.html',
 		filename: 'index.html',
 		inject: 'body'
 	})]
