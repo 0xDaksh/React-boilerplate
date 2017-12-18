@@ -1,8 +1,17 @@
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
+const PreloadWebpackPlugin = require('preload-webpack-plugin')
+
+// add options here
+const options = {
+	projname: 'react-boilerplate-project',
+	public: 'http://localhost:8080/'
+}
+
+// plugins initialized and configured
 const html = new htmlWebpackPlugin({
 	template: './src/index.template.html',
 	filename: 'index.html',
@@ -15,9 +24,7 @@ const html = new htmlWebpackPlugin({
 		removeRedundantAttributes: true
 	}
 })
-
 const concat = new webpack.optimize.ModuleConcatenationPlugin()
-
 const chunk = new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     filename: 'vendor.[chunkhash].js',
@@ -25,7 +32,6 @@ const chunk = new webpack.optimize.CommonsChunkPlugin({
       return module.context && module.context.indexOf('node_modules') >= 0;
     }
 })
-
 const uglify = new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false,
@@ -43,15 +49,29 @@ const uglify = new webpack.optimize.UglifyJsPlugin({
       comments: false
     }
 })
-
-const gzipify =   new CompressionPlugin({
+const gzipify = new CompressionPlugin({
 	asset: '[path].gz[query]',
 	algorithm: 'gzip',
 	test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
 	threshold: 10240,
 	minRatio: 0.8
 })
+const swprecache = new SWPrecacheWebpackPlugin({
+	  cacheId: options.projname,
+	  dontCacheBustUrlsMatching: /\.\w{8}\./,
+	  filename: 'service-worker.js',
+	  minify: true,
+	  navigateFallback: options.public + 'index.html',
+	  staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+})
+const preload = new PreloadWebpackPlugin({
+	rel: 'preload',
+	as: 'script',
+	include: 'all',
+	fileBlacklist: [/\.(css|map)$/, /base?.+/]
+})
 
+// config
 module.exports = {
 	entry: './src/main.js',
 	output: {
@@ -82,6 +102,8 @@ module.exports = {
 			new ScriptExtHtmlWebpackPlugin({
 				defaultAttribute: 'defer'
 			}),
-			gzipify
+			gzipify,
+			swprecache,
+			preload
 	]
 }
