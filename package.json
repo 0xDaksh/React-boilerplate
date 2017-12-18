@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack/webpack.config.dev.js",
+    "dev": "webpack-dev-server --config webpack/webpack.config.dev.js --history-api-fallback --hot",
     "build": "webpack --config webpack/webpack.config.prod.js"
   },
   "keywords": [],
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2"
   }
 }
