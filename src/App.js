@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Home from './routes/Home'
+import NotFound from './routes/NotFound'
 
 class App extends Component {
   render() {
     return (
       <div>
 		  <BrowserRouter>
-			<div>
+			<Switch>
 				<Route exact path="/" component={Home} />
-			</div>
+				<Route path="*" component={NotFound} />
+			</Switch>
 		  </BrowserRouter>
       </div>
     );
